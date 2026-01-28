@@ -11,3 +11,6 @@ chatbot.db
 localhost.pem
 localhost-key.pem
 node_modules/
+
+# Agent Skills
+.agent/

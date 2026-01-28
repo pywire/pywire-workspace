@@ -385,7 +385,7 @@ wheels = [
 
 [[package]]
 name = "demo-app"
-version = "0.0.1"
+version = "0.1.0"
 source = { virtual = "examples/demo-app" }
 dependencies = [
     { name = "beautifulsoup4" },
@@ -406,7 +406,7 @@ requires-dist = [
 
 [[package]]
 name = "demo-components"
-version = "0.0.1"
+version = "0.1.0"
 source = { editable = "examples/demo-components" }
 dependencies = [
     { name = "pywire" },
@@ -417,7 +417,7 @@ requires-dist = [{ name = "pywire", editable = "pywire" }]
 
 [[package]]
 name = "demo-routing"
-version = "0.0.1"
+version = "0.1.0"
 source = { virtual = "examples/demo-routing" }
 dependencies = [
     { name = "pywire" },
