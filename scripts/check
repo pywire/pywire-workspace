@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+echo "=== Checking PyWire (Core) ==="
+(cd pywire && ./scripts/check)
+
+echo "=== Checking PyWire Language Server ==="
+(cd pywire-language-server && ./scripts/check)
+
+echo "=== Checking Examples ==="
+(cd examples && ./scripts/check)

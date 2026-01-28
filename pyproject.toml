@@ -1,10 +1,19 @@
 [project]
 name = "pywire-workspace"
 version = "0.1.0"
-dependencies = []
+dependencies = [
+    "pywire[dev]",
+    "pywire-language-server",
+]
 
 [tool.uv]
-workspace = { members = ["pywire", "pywire-language-server", "examples/*"] }
+workspace = { members = [
+    "pywire",
+    "pywire-language-server",
+    "examples/demo-app",
+    "examples/demo-components",
+    "examples/demo-routing"
+] }
 
 [tool.uv.sources]
 pywire = { workspace = true }
