@@ -18,3 +18,18 @@ workspace = { members = [
 [tool.uv.sources]
 pywire = { workspace = true }
 pywire-language-server = { workspace = true }
+
+[tool.mypy]
+python_version = "3.11"
+check_untyped_defs = true
+warn_unused_ignores = true
+no_implicit_optional = true
+show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = [
+    "aioquic.*",
+    "cryptography.*",
+    "hypercorn.*",
+]
+ignore_missing_imports = true

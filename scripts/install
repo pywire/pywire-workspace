@@ -6,8 +6,8 @@ uv sync
 echo "--- Installing Sub-project Dependencies ---"
 # VS Code Extension
 if [ -d "vscode-pywire" ]; then
-    echo "-> Installing vscode-pywire npm deps..."
-    (cd vscode-pywire && npm install)
+    echo "-> Installing vscode-pywire pnpm deps..."
+    (cd vscode-pywire && pnpm install)
 fi
 
 # PyWire.dev Site
