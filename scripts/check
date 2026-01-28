@@ -1,4 +1,7 @@
 #!/bin/sh -e
+echo "--- Syncing Environment (Root) ---"
+uv sync
+
 
 echo "=== Checking PyWire (Core) ==="
 (cd pywire && ./scripts/check)
