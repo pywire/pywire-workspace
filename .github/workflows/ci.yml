@@ -14,6 +14,27 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
+          token: ${{ secrets.GH_PAT }}
+      
+      - name: Debug Auth
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          echo "Checking GH_PAT validity..."
+          if [ -z "$GH_TOKEN" ]; then
+            echo "Error: GH_PAT is empty!"
+            exit 1
+          else
+            echo "GH_PAT is present (length: ${#GH_TOKEN})"
+          fi
+          
+          # Test auth scope against the org repo
+          echo "Testing ability to read pywire/pywire..."
+          gh repo view pywire/pywire --json visibility || echo "Failed to view repo with gh cli"
+          
+          # Test raw git access
+          echo "Testing raw git ls-remote..."
+          git ls-remote https://x-access-token:$GH_TOKEN@github.com/pywire/pywire.git HEAD || echo "Failed git access"
       - name: Install uv
         uses: astral-sh/setup-uv@v5
         with:
