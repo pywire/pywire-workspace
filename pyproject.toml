@@ -7,12 +7,8 @@ dependencies = [
 ]
 
 [tool.uv]
-workspace = { members = [
     "pywire",
     "pywire-language-server",
-    "examples/demo-app",
-    "examples/demo-components",
-    "examples/demo-routing",
     "create-pywire-app"
 ] }
 

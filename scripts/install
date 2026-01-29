@@ -15,3 +15,10 @@ if [ -d "pywire.dev/site" ]; then
     echo "-> Installing pywire.dev/site pnpm deps..."
     (cd pywire.dev/site && pnpm install)
 fi
+
+# Examples Workspace
+if [ -d "examples" ]; then
+    echo "-> Installing examples workspace dependencies..."
+    # Link local pywire and sync
+    (cd examples && uv add --editable ../pywire && uv sync)
+fi
