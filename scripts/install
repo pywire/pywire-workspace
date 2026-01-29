@@ -17,8 +17,8 @@ if [ -d "pywire.dev/site" ]; then
 fi
 
 # Examples Workspace
-# if [ -d "examples" ]; then
-#     echo "-> Installing examples workspace dependencies..."
-#     # Link local pywire and sync
-#     (cd examples && uv add --editable ../pywire && uv sync)
-# fi
+if [ -d "examples" ]; then
+    echo "-> Installing examples workspace dependencies..."
+    # Link local pywire and sync
+    (cd examples && uv add --editable ../pywire && uv sync)
+fi
