@@ -12,7 +12,8 @@ workspace = { members = [
     "pywire-language-server",
     "examples/demo-app",
     "examples/demo-components",
-    "examples/demo-routing"
+    "examples/demo-routing",
+    "create-pywire-app"
 ] }
 
 [tool.uv.sources]

@@ -1,21 +1,24 @@
 [submodule "pywire"]
 	path = pywire
-	url = https://github.com/pywire/pywire.git
+	url = ../pywire.git
 [submodule "pywire-language-server"]
 	path = pywire-language-server
-	url = https://github.com/pywire/pywire-language-server.git
+	url = ../pywire-language-server.git
 [submodule "pywire.dev"]
 	path = pywire.dev
-	url = https://github.com/pywire/pywire.dev.git
+	url = ../pywire.dev.git
 [submodule "vscode-pywire"]
 	path = vscode-pywire
-	url = https://github.com/pywire/vscode-pywire.git
+	url = ../vscode-pywire.git
 [submodule "tree-sitter-pywire"]
 	path = tree-sitter-pywire
-	url = https://github.com/pywire/tree-sitter-pywire.git
+	url = ../tree-sitter-pywire.git
 [submodule "examples"]
 	path = examples
-	url = https://github.com/pywire/examples.git
+	url = ../examples.git
 [submodule ".github"]
 	path = .github
-	url = https://github.com/pywire/.github.git
+	url = ../.github.git
+[submodule "create-pywire-app"]
+	path = create-pywire-app
+	url = ../create-pywire-app.git
