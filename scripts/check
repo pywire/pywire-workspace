@@ -9,5 +9,8 @@ echo "=== Checking PyWire (Core) ==="
 echo "=== Checking PyWire Language Server ==="
 (cd pywire-language-server && ./scripts/check)
 
+echo "=== Checking Create PyWire App ==="
+(cd create-pywire-app && ./scripts/check)
+
 echo "=== Checking Examples ==="
 (cd examples && ./scripts/check)

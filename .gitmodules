@@ -19,3 +19,6 @@
 [submodule ".github"]
 	path = .github
 	url = ../.github.git
+[submodule "create-pywire-app"]
+	path = create-pywire-app
+	url = ../create-pywire-app.git
