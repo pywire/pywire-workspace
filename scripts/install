@@ -1,6 +1,26 @@
 #!/bin/sh -e
+echo "--- Checking For Dependencies ---"
+
+if ! command -v pnpm &> /dev/null; then
+    echo "pnpm not found. Installing..."
+    # The official pnpm install script
+    curl -fsSL https://get.pnpm.io/install.sh | sh -
+    case "$OSTYPE" in
+      darwin*)  export PNPM_HOME="$HOME/Library/pnpm" ;;
+      linux*)   export PNPM_HOME="$HOME/.local/share/pnpm" ;;
+      *)        export PNPM_HOME="$HOME/.pnpm-home" ;;
+    esac
+    export PATH="$PNPM_HOME:$PATH"
+fi
+
+if ! command -v uv &> /dev/null; then
+    echo "uv not found. Installing..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    export PATH="$HOME/.local/bin:$PATH"
+fi
 
 echo "--- Syncing Workspace Environment ---"
+
 uv sync
 
 echo "--- Installing Sub-project Dependencies ---"
