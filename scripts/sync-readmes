@@ -1,0 +1,118 @@
+#!/usr/bin/env python3
+import os
+import sys
+import argparse
+from pathlib import Path
+
+START_TAG = "<!-- SUPPORT_MESSAGE_TEMPLATE_START -->"
+END_TAG = "<!-- SUPPORT_MESSAGE_TEMPLATE_END -->"
+SUPPORT_HEADER = "## ❤️ Support"
+
+def get_workspace_root():
+    return Path(__file__).parent.parent.absolute()
+
+def get_support_message(root):
+    path = root / "org.github" / "SUPPORT_MESSAGE.md"
+    if not path.exists():
+        print(f"Error: Support message source not found at {path}")
+        sys.exit(1)
+    return path.read_text().strip()
+
+def sync_readme(readme_path, support_content, check_only=False):
+    content = readme_path.read_text()
+    
+    if START_TAG in content and END_TAG in content:
+        # Standard replacement
+        start_idx = content.find(START_TAG) + len(START_TAG)
+        end_idx = content.find(END_TAG)
+        
+        new_inner = f"\n{support_content}\n"
+        old_inner = content[start_idx:end_idx]
+        
+        if old_inner == new_inner:
+            return False, False # No change needed
+        
+        if check_only:
+            return True, False
+            
+        new_content = content[:start_idx] + new_inner + content[end_idx:]
+        readme_path.write_text(new_content)
+        return False, True
+    
+    elif SUPPORT_HEADER in content:
+        # Found header but no tags, let's wrap it if not check_only
+        if check_only:
+            return True, False
+            
+        lines = content.splitlines()
+        new_lines = []
+        in_support = False
+        captured_tags = False
+        
+        for line in lines:
+            if line.startswith(SUPPORT_HEADER):
+                new_lines.append(START_TAG)
+                new_lines.append(support_content)
+                new_lines.append(END_TAG)
+                in_support = True
+                captured_tags = True
+                continue
+            
+            if in_support:
+                # Skip existing support content until next header or end
+                if line.startswith("## ") or line.startswith("# "):
+                    in_support = False
+                    new_lines.append(line)
+                continue
+                
+            new_lines.append(line)
+            
+        if captured_tags:
+            readme_path.write_text("\n".join(new_lines) + "\n")
+            return False, True
+            
+    return False, False
+
+def main():
+    parser = argparse.ArgumentParser(description="Sync support message and other templates across READMEs")
+    parser.add_argument("--check", action="store_true", help="Only check for sync status")
+    args = parser.parse_args()
+    
+    root = get_workspace_root()
+    support_content = get_support_message(root)
+    
+    out_of_sync = []
+    updated = []
+    
+    # Exclude directories
+    exclude_dirs = {".venv", "node_modules", ".git", ".mypy_cache", ".pytest_cache", "dist", "scratch"}
+    
+    for path in root.rglob("README.md"):
+        # Check if any parent is in exclude_dirs
+        if any(part in exclude_dirs for part in path.parts):
+            continue
+            
+        is_oot, was_updated = sync_readme(path, support_content, args.check)
+        if is_oot:
+            out_of_sync.append(path)
+        if was_updated:
+            updated.append(path)
+            
+    if args.check:
+        if out_of_sync:
+            print("The following files are out of sync:")
+            for f in out_of_sync:
+                print(f"  - {f.relative_to(root)}")
+            sys.exit(1)
+        else:
+            print("All READMEs are in sync.")
+    else:
+        if updated:
+            print("Updated the following files:")
+            for f in updated:
+                print(f"  - {f.relative_to(root)}")
+        else:
+            print("No files needed updating.")
+
+if __name__ == "__main__":
+    main()

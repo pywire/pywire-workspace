@@ -1,6 +1,8 @@
 #!/bin/sh -e
 echo "--- Syncing Environment (Root) ---"
 uv sync
+echo "--- Checking README Sync ---"
+./scripts/sync-readmes --check
 
 
 echo "=== Checking PyWire (Core) ==="
