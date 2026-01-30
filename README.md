@@ -1,6 +1,6 @@
-# PyWire Workspace
+# pywire Workspace
 
-The polyrepo workspace for PyWire, a modern web framework for Python.
+The polyrepo workspace for pywire, a modern web framework for Python.
 <!-- bump -->
 
 <!-- SUPPORT_MESSAGE_TEMPLATE_START -->
