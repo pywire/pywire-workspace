@@ -19,6 +19,6 @@ fi
 # Examples Workspace
 if [ -d "examples" ]; then
     echo "-> Installing examples workspace dependencies..."
-    # Link local pywire and sync
-    (cd examples && uv add --editable ../pywire && uv sync)
+    # Sync workspace; member projects already point at local pywire via tool.uv.sources
+    (cd examples && uv sync)
 fi
