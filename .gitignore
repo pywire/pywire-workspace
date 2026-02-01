@@ -10,6 +10,7 @@ scratch/
 chatbot.db
 localhost.pem
 localhost-key.pem
+.pywire/
 node_modules/
 
 # Agent Skills

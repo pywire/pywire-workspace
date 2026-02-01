@@ -332,6 +332,7 @@ name = "create-pywire-app"
 version = "0.1.0"
 source = { editable = "create-pywire-app" }
 dependencies = [
+    { name = "jinja2" },
     { name = "questionary" },
     { name = "rich" },
 ]
@@ -345,6 +346,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "jinja2", specifier = ">=3.1.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.4.0" },
     { name = "questionary", specifier = ">=2.0.0" },
     { name = "rich", specifier = ">=13.0.0" },
@@ -1371,7 +1373,7 @@ wheels = [
 
 [[package]]
 name = "pywire"
-version = "0.0.1"
+version = "0.1.0"
 source = { editable = "pywire" }
 dependencies = [
     { name = "jinja2" },
@@ -1438,7 +1440,6 @@ source = { editable = "pywire-language-server" }
 dependencies = [
     { name = "pygls" },
     { name = "pyright" },
-    { name = "pywire" },
 ]
 
 [package.optional-dependencies]
@@ -1460,7 +1461,6 @@ requires-dist = [
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.4.0" },
     { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = ">=0.21.0" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=4.1.0" },
-    { name = "pywire", editable = "pywire" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.1.0" },
     { name = "tox", marker = "extra == 'dev'", specifier = ">=4.0.0" },
     { name = "tox-uv", marker = "extra == 'dev'", specifier = ">=1.0.0" },

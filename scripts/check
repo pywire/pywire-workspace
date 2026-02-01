@@ -23,6 +23,9 @@ echo "=== Checking Examples ==="
 echo "=== Checking VS Code Extension ==="
 (cd vscode-pywire && ./scripts/check)
 
+echo "=== Checking Prettier Plugin PyWire ==="
+(cd prettier-plugin-pywire && ./scripts/check)
+
 echo "=== Checking PyWire Docs Site ==="
 (cd pywire/docs && ./scripts/check)
 

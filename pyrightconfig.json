@@ -1,0 +1,5 @@
+{
+  "exclude": [
+    "create-pywire-app/src/create_pywire_app/templates"
+  ]
+}

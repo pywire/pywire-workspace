@@ -32,5 +32,11 @@ module = [
 ]
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = [
+    "create_pywire_app.templates.*",
+]
+ignore_missing_imports = true
+
 [tool.pytest.ini_options]
 norecursedirs = ["scratch", ".*", "build", "dist", "CVS", "_darcs", "{arch}", "*.egg", "venv"]

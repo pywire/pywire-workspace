@@ -22,3 +22,6 @@
 [submodule "org.github"]
 	path = org.github
 	url = ../.github.git
+[submodule "prettier-plugin-pywire"]
+	path = prettier-plugin-pywire
+	url = ../prettier-plugin-pywire.git
