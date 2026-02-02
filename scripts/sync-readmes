@@ -4,74 +4,97 @@ import sys
 import argparse
 from pathlib import Path
 
-START_TAG = "<!-- SUPPORT_MESSAGE_TEMPLATE_START -->"
-END_TAG = "<!-- SUPPORT_MESSAGE_TEMPLATE_END -->"
-SUPPORT_HEADER = "## ❤️ Support"
+TEMPLATES = {
+    "SUPPORT": {
+        "start_tag": "<!-- SUPPORT_MESSAGE_TEMPLATE_START -->",
+        "end_tag": "<!-- SUPPORT_MESSAGE_TEMPLATE_END -->",
+        "source": "org.github/SUPPORT_MESSAGE.md",
+        "header": "## ❤️ Support"
+    },
+    "INSTALL": {
+        "start_tag": "<!-- INSTALL_MESSAGE_TEMPLATE_START -->",
+        "end_tag": "<!-- INSTALL_MESSAGE_TEMPLATE_END -->",
+        "source": "org.github/INSTALL_MESSAGE.md",
+        "header": "## 🚀 Quick Start"
+    }
+}
 
 def get_workspace_root():
     return Path(__file__).parent.parent.absolute()
 
-def get_support_message(root):
-    path = root / "org.github" / "SUPPORT_MESSAGE.md"
+def get_template_content(root, source_path):
+    path = root / source_path
     if not path.exists():
-        print(f"Error: Support message source not found at {path}")
+        print(f"Error: Template source not found at {path}")
         sys.exit(1)
     return path.read_text().strip()
 
-def sync_readme(readme_path, support_content, check_only=False):
+def sync_readme(readme_path, templates_data, check_only=False):
     content = readme_path.read_text()
+    was_updated = False
+    is_oot = False
     
-    if START_TAG in content and END_TAG in content:
-        # Standard replacement
-        start_idx = content.find(START_TAG) + len(START_TAG)
-        end_idx = content.find(END_TAG)
-        
-        new_inner = f"\n{support_content}\n"
-        old_inner = content[start_idx:end_idx]
-        
-        if old_inner == new_inner:
-            return False, False # No change needed
-        
-        if check_only:
-            return True, False
-            
-        new_content = content[:start_idx] + new_inner + content[end_idx:]
-        readme_path.write_text(new_content)
-        return False, True
+    new_content = content
     
-    elif SUPPORT_HEADER in content:
-        # Found header but no tags, let's wrap it if not check_only
-        if check_only:
-            return True, False
-            
-        lines = content.splitlines()
-        new_lines = []
-        in_support = False
-        captured_tags = False
+    for name, data in templates_data.items():
+        start_tag = data["start_tag"]
+        end_tag = data["end_tag"]
+        template_content = data["content"]
+        header = data["header"]
         
-        for line in lines:
-            if line.startswith(SUPPORT_HEADER):
-                new_lines.append(START_TAG)
-                new_lines.append(support_content)
-                new_lines.append(END_TAG)
-                in_support = True
-                captured_tags = True
-                continue
+        if start_tag in new_content and end_tag in new_content:
+            # Standard replacement
+            start_idx = new_content.find(start_tag) + len(start_tag)
+            end_idx = new_content.find(end_tag)
             
-            if in_support:
-                # Skip existing support content until next header or end
-                if line.startswith("## ") or line.startswith("# "):
-                    in_support = False
-                    new_lines.append(line)
+            new_inner = f"\n{template_content}\n"
+            old_inner = new_content[start_idx:end_idx]
+            
+            if old_inner != new_inner:
+                if check_only:
+                    is_oot = True
+                    continue
+                
+                new_content = new_content[:start_idx] + new_inner + new_content[end_idx:]
+                was_updated = True
+        
+        elif header in new_content:
+            # Found header but no tags, let's wrap it if not check_only
+            if check_only:
+                is_oot = True
                 continue
                 
-            new_lines.append(line)
+            lines = new_content.splitlines()
+            new_lines = []
+            in_section = False
+            captured_tags = False
             
-        if captured_tags:
-            readme_path.write_text("\n".join(new_lines) + "\n")
-            return False, True
-            
-    return False, False
+            for line in lines:
+                if line.startswith(header):
+                    new_lines.append(start_tag)
+                    new_lines.append(template_content)
+                    new_lines.append(end_tag)
+                    in_section = True
+                    captured_tags = True
+                    continue
+                
+                if in_section:
+                    # Skip existing content until next header or end
+                    if line.startswith("## ") or line.startswith("# "):
+                        in_section = False
+                        new_lines.append(line)
+                    continue
+                    
+                new_lines.append(line)
+                
+            if captured_tags:
+                new_content = "\n".join(new_lines) + "\n"
+                was_updated = True
+                
+    if was_updated and not check_only:
+        readme_path.write_text(new_content)
+        
+    return is_oot, was_updated
 
 def main():
     parser = argparse.ArgumentParser(description="Sync support message and other templates across READMEs")
@@ -79,7 +102,13 @@ def main():
     args = parser.parse_args()
     
     root = get_workspace_root()
-    support_content = get_support_message(root)
+    
+    templates_data = {}
+    for name, config in TEMPLATES.items():
+        templates_data[name] = {
+            **config,
+            "content": get_template_content(root, config["source"])
+        }
     
     out_of_sync = []
     updated = []
@@ -92,7 +121,7 @@ def main():
         if any(part in exclude_dirs for part in path.parts):
             continue
             
-        is_oot, was_updated = sync_readme(path, support_content, args.check)
+        is_oot, was_updated = sync_readme(path, templates_data, args.check)
         if is_oot:
             out_of_sync.append(path)
         if was_updated:
