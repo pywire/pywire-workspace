@@ -18,10 +18,9 @@ fi
 
 # Examples Workspace
 if [ -d "examples" ]; then
-    echo "-> Installing examples workspace dependencies..."
-    # Sync workspace; member projects already point at local pywire via tool.uv.sources
-    (cd examples && uv sync)
+    echo "-> Examples are managed via the root workspace."
 fi
+
 
 # PyWire Core (Must run install to build client assets for forced inclusion)
 if [ -d "pywire" ]; then
