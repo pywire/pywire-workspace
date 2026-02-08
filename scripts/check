@@ -8,7 +8,7 @@ echo "--- Checking Version Sync ---"
 ./scripts/sync-version --check
 
 
-echo "=== Checking PyWire (Core) ==="
+echo "=== Checking PyWire (Core, Client, Docs) ==="
 (cd pywire && ./scripts/check)
 
 echo "=== Checking PyWire Language Server ==="
@@ -26,8 +26,5 @@ echo "=== Checking VS Code Extension ==="
 echo "=== Checking Prettier Plugin PyWire ==="
 (cd prettier-plugin-pywire && ./scripts/check)
 
-echo "=== Checking PyWire Docs Site ==="
-(cd pywire/docs && ./scripts/check)
-
 echo "=== Checking PyWire Marketing Site ==="
-(cd pywire.dev/site && ./scripts/check)
+(cd pywire.dev && ./scripts/check)

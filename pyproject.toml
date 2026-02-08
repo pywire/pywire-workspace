@@ -10,33 +10,26 @@ dependencies = [
 workspace = { members = [
     "pywire",
     "pywire-language-server",
-    "create-pywire-app"
+    "create-pywire-app",
+    "examples/demo-app",
+    "examples/demo-components",
+    "examples/demo-routing"
 ] }
 
 [tool.uv.sources]
 pywire = { workspace = true }
 pywire-language-server = { workspace = true }
 
-[tool.mypy]
-python_version = "3.11"
-check_untyped_defs = true
-warn_unused_ignores = true
-no_implicit_optional = true
-show_error_codes = true
+[tool.ty.environment]
+python-version = "3.11"
 
-[[tool.mypy.overrides]]
-module = [
+[tool.ty.src]
+exclude = [
+    "create_pywire_app/templates/*",
     "aioquic.*",
     "cryptography.*",
     "hypercorn.*",
 ]
-ignore_missing_imports = true
-
-[[tool.mypy.overrides]]
-module = [
-    "create_pywire_app.templates.*",
-]
-ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 norecursedirs = ["scratch", ".*", "build", "dist", "CVS", "_darcs", "{arch}", "*.egg", "venv"]

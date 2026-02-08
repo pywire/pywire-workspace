@@ -1,0 +1,22 @@
+#!/bin/sh -e
+
+echo "=== Linting PyWire (Core, Client, Docs) ==="
+(cd pywire && ./scripts/lint)
+
+echo "=== Linting PyWire Language Server ==="
+(cd pywire-language-server && ./scripts/lint)
+
+echo "=== Linting Create PyWire App ==="
+(cd create-pywire-app && ./scripts/lint)
+
+echo "=== Linting Examples ==="
+(cd examples && ./scripts/lint)
+
+echo "=== Linting VS Code Extension ==="
+(cd vscode-pywire && ./scripts/lint)
+
+echo "=== Linting Prettier Plugin PyWire ==="
+(cd prettier-plugin-pywire && ./scripts/lint)
+
+echo "=== Linting PyWire Marketing Site ==="
+(cd pywire.dev && ./scripts/lint)
