@@ -25,3 +25,7 @@
 [submodule "prettier-plugin-pywire"]
 	path = prettier-plugin-pywire
 	url = ../prettier-plugin-pywire.git
+[submodule "pywire-parser"]
+	path = pywire-parser
+	url = ../pywire-parser.git
+	
